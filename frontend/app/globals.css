@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+body {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+.chat-container {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
