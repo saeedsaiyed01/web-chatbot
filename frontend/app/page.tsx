@@ -173,22 +173,22 @@ export default function HomePage() {
   };
 
   return (
-    <main className="chat-container px-3 pt-4">
-      <header className="pb-3 border-b border-slate-800 flex items-center justify-between">
+    <main className="chat-container px-4 pt-6">
+      <header className="pb-4 border-b border-zinc-800 flex items-center justify-between">
         <div>
-          <div className="text-sm text-slate-400 uppercase tracking-wide">
+          <div className="text-xs text-zinc-500 uppercase tracking-wider font-medium">
             Smart Deals
           </div>
-          <div className="text-lg font-semibold">
+          <div className="text-lg font-semibold text-zinc-100">
             Chatbot Assistant
           </div>
           {user && (
-            <div className="text-xs text-slate-400">
+            <div className="text-xs text-zinc-500 mt-1">
               Logged in as {user.name} ({user.phone})
             </div>
           )}
         </div>
-        <div className="text-xs text-slate-400">
+        <div className="text-xs text-zinc-600">
           MERN Assignment Demo
         </div>
       </header>
@@ -198,22 +198,22 @@ export default function HomePage() {
       {isBotTyping && <TypingIndicator />}
 
       {/* Phase-based controls */}
-      <div className="mt-3 space-y-2 pb-4">
+      <div className="mt-4 space-y-3 pb-6">
         {phase === "phone" && (
-          <div className="space-y-2">
-            <div className="text-xs text-slate-400">
+          <div className="space-y-3">
+            <div className="text-xs text-zinc-500">
               Enter your phone number to continue:
             </div>
             <div className="flex gap-2">
               <input
-                className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none"
+                className="flex-1 bg-transparent border border-zinc-800 rounded-lg px-4 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-zinc-700 transition-colors"
                 placeholder="e.g. 9876543210"
                 value={phoneInput}
                 onChange={(e) => setPhoneInput(e.target.value)}
               />
               <button
                 onClick={handlePhoneSubmit}
-                className="text-sm bg-blue-500 px-4 rounded-lg font-semibold"
+                className="text-sm bg-white hover:bg-zinc-200 text-black px-5 py-2.5 rounded-lg font-medium transition-colors"
               >
                 Continue
               </button>
@@ -222,12 +222,12 @@ export default function HomePage() {
         )}
 
         {phase === "register" && (
-          <div className="space-y-2 border border-slate-800 p-3 rounded-xl bg-slate-900/60">
-            <div className="text-xs text-slate-400">
+          <div className="space-y-3 border border-zinc-800 p-4 rounded-xl bg-zinc-900/50">
+            <div className="text-xs text-zinc-500">
               Complete your registration:
             </div>
             <input
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none mb-2"
+              className="w-full bg-transparent border border-zinc-800 rounded-lg px-4 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-zinc-700 transition-colors"
               placeholder="Full name"
               value={registerForm.name}
               onChange={(e) =>
@@ -235,7 +235,7 @@ export default function HomePage() {
               }
             />
             <input
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none mb-2"
+              className="w-full bg-transparent border border-zinc-800 rounded-lg px-4 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-zinc-700 transition-colors"
               placeholder="Email (optional)"
               value={registerForm.email}
               onChange={(e) =>
@@ -243,7 +243,7 @@ export default function HomePage() {
               }
             />
             <textarea
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none mb-2"
+              className="w-full bg-transparent border border-zinc-800 rounded-lg px-4 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-zinc-700 transition-colors resize-none"
               placeholder="Address (optional)"
               rows={2}
               value={registerForm.address}
@@ -253,7 +253,7 @@ export default function HomePage() {
             />
             <button
               onClick={handleRegisterSubmit}
-              className="w-full text-sm bg-emerald-500 hover:bg-emerald-600 text-black font-semibold px-4 py-2 rounded-lg"
+              className="w-full text-sm bg-white hover:bg-zinc-200 text-black font-medium px-4 py-2.5 rounded-lg transition-colors"
             >
               Register & Continue
             </button>
@@ -261,13 +261,13 @@ export default function HomePage() {
         )}
 
         {phase === "chat" && (
-          <>
+          <div className="space-y-3">
             <QuickActions onAction={handleQuickAction} />
             <InputBox
               placeholder="Ask me about deals, orders or payments..."
               onSend={handleSendChat}
             />
-          </>
+          </div>
         )}
       </div>
     </main>

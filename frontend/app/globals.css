@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 body {
-  background-color: #111827;
-  color: #f9fafb;
+  background-color: #09090b;
+  color: #fafafa;
 }
 
 .chat-container {

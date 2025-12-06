@@ -26,10 +26,10 @@ export default function InputBox({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex gap-2 items-center border border-slate-700 bg-slate-900 rounded-full px-3 py-1"
+      className="flex gap-2 items-center border border-zinc-800 bg-transparent rounded-lg px-4 py-2"
     >
       <input
-        className="flex-1 bg-transparent outline-none text-sm placeholder:text-slate-500"
+        className="flex-1 bg-transparent outline-none text-sm text-zinc-100 placeholder:text-zinc-500"
         placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -38,9 +38,22 @@ export default function InputBox({
       <button
         type="submit"
         disabled={disabled}
-        className="text-xs font-semibold px-3 py-1 rounded-full bg-blue-500 hover:bg-blue-600 disabled:opacity-40"
+        className="text-zinc-400 hover:text-zinc-100 disabled:opacity-40 transition-colors p-1"
       >
-        Send
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m22 2-7 20-4-9-9-4Z" />
+          <path d="M22 2 11 13" />
+        </svg>
       </button>
     </form>
   );

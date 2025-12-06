@@ -17,10 +17,10 @@ export default function MessageBubble({ from, text, payload }: Props) {
       } transition-all`}
     >
       <div
-        className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm shadow-md ${
+        className={`max-w-[80%] rounded-xl px-4 py-2 text-sm ${
           isUser
-            ? "bg-blue-600 text-white rounded-br-sm"
-            : "bg-slate-800 text-slate-50 rounded-bl-sm"
+            ? "bg-zinc-100 text-zinc-900 rounded-tr-sm"
+            : "bg-zinc-900 border border-zinc-800 text-zinc-100 rounded-tl-sm"
         }`}
       >
         {text && <p className="whitespace-pre-line">{text}</p>}
@@ -32,34 +32,34 @@ export default function MessageBubble({ from, text, payload }: Props) {
                 <DealCard key={deal.id} deal={deal} />
               ))
             ) : (
-              <div className="text-xs text-slate-400">No deals available at the moment.</div>
+              <div className="text-xs text-zinc-400">No deals available at the moment.</div>
             )}
           </div>
         )}
 
         {payload?.type === "orders" && (
-          <div className="mt-3 space-y-1 text-xs opacity-90">
+          <div className="mt-3 space-y-2 text-xs">
             {payload.orders.map((o: any) => (
               <div
                 key={o._id}
-                className="border border-slate-700 rounded-lg px-2 py-1"
+                className="border border-zinc-800 rounded-lg px-3 py-2 bg-zinc-900"
               >
-                <div className="font-semibold">{o.productName}</div>
-                <div className="text-[10px] uppercase">{o.status}</div>
+                <div className="font-semibold text-zinc-100">{o.productName}</div>
+                <div className="text-zinc-400 uppercase text-[10px] mt-1">{o.status}</div>
               </div>
             ))}
           </div>
         )}
 
         {payload?.type === "payments" && (
-          <div className="mt-3 space-y-1 text-xs opacity-90">
+          <div className="mt-3 space-y-2 text-xs">
             {payload.payments.map((p: any) => (
               <div
                 key={p._id}
-                className="border border-slate-700 rounded-lg px-2 py-1"
+                className="border border-zinc-800 rounded-lg px-3 py-2 bg-zinc-900"
               >
-                <div>Paid: ₹{p.amountPaid}</div>
-                <div>Pending: ₹{p.pendingAmount}</div>
+                <div className="text-zinc-100">Paid: ₹{p.amountPaid}</div>
+                <div className="text-zinc-400">Pending: ₹{p.pendingAmount}</div>
               </div>
             ))}
           </div>
