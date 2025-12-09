@@ -16,7 +16,21 @@ export const buildDealsPayload = (deals) => ({
 
 export const buildOrdersPayload = (orders) => ({
   type: "orders",
-  orders
+  orders: orders.map((order) => ({
+    _id: order._id,
+    totalAmount: order.totalAmount,
+    status: order.status,
+    paymentStatus: order.paymentStatus,
+    quantity: order.quantity,
+    createdAt: order.createdAt,
+    dealId: order.dealId ? {
+      title: order.dealId.title,
+      description: order.dealId.description,
+      price: order.dealId.price,
+      imageURL: order.dealId.imageURL
+    } : null,
+    shippingAddress: order.shippingAddress
+  }))
 });
 
 export const buildPaymentsPayload = (payments) => ({

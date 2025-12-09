@@ -17,7 +17,7 @@ const router = express.Router();
 router.post("/", auth, async (req, res, next) => {
   try {
     const { message } = req.body;
-    const intent = detectIntent(message);
+    const { intent, params } = detectIntent(message);
 
     const replies = [];
 
@@ -30,13 +30,35 @@ router.post("/", auth, async (req, res, next) => {
       }
 
       case "ORDERS": {
-        const orders = await Order.find({ userId: req.user.id }).sort({
-          createdAt: -1
-        });
+        let ordersQuery = { userId: req.user.id };
+        
+        // Apply price filters if present
+        if (params.minPrice !== undefined || params.maxPrice !== undefined) {
+          ordersQuery.totalAmount = {};
+          if (params.minPrice !== undefined) {
+            ordersQuery.totalAmount.$gte = params.minPrice;
+          }
+          if (params.maxPrice !== undefined) {
+            ordersQuery.totalAmount.$lte = params.maxPrice;
+          }
+        }
+
+        const orders = await Order.find(ordersQuery)
+          .populate('dealId')
+          .sort({ createdAt: -1 });
+          
         if (!orders.length) {
-          replies.push(buildTextMessage("You don't have any orders yet."));
+          let message = "You don't have any orders yet.";
+          if (params.minPrice !== undefined || params.maxPrice !== undefined) {
+            message = `No orders found in the price range of ₹${params.minPrice || 0} - ₹${params.maxPrice || 'any'}.`;
+          }
+          replies.push(buildTextMessage(message));
         } else {
-          replies.push(buildTextMessage("Here is your order history:"));
+          let message = "Here is your order history:";
+          if (params.minPrice !== undefined || params.maxPrice !== undefined) {
+            message = `Here are your orders in the price range of ₹${params.minPrice || 0} - ₹${params.maxPrice || 'any'}:`;
+          }
+          replies.push(buildTextMessage(message));
           replies.push(buildOrdersPayload(orders));
         }
         break;
@@ -70,18 +92,30 @@ router.post("/", auth, async (req, res, next) => {
       case "MENU": {
         replies.push(
           buildTextMessage(
-            "You can say: 'show deals', 'my orders', 'payment status', or 'help'."
+            "I'm here to help! You can ask me about:\n\n📱 Deals & Products - 'show me deals' or 'what can I buy'\n📦 Order History - 'my orders' or 'show me past orders'\n💰 Payment Status - 'payment status' or 'my bills'\n🆘 General Support - Just tell me what you need!\n\nWhat would you like to know?"
           )
         );
         break;
       }
 
       default: {
-        replies.push(
-          buildTextMessage(
-            "Sorry, I didn't understand that. Try 'show deals', 'my orders', or 'payment status'."
-          )
-        );
+        // Try to provide helpful suggestions based on common patterns
+        const lowerMessage = message.toLowerCase();
+        let helpfulMessage = "I'm here to help! You can ask me about:\n\n";
+        
+        if (lowerMessage.includes("watch") || lowerMessage.includes("phone") || lowerMessage.includes("headphone")) {
+          helpfulMessage += "📱 Products - I can show you deals on watches, phones, and more!\n";
+        }
+        if (lowerMessage.includes("order") || lowerMessage.includes("buy") || lowerMessage.includes("purchase")) {
+          helpfulMessage += "📦 Orders - Ask about 'my orders' or 'order history'\n";
+        }
+        if (lowerMessage.includes("money") || lowerMessage.includes("pay") || lowerMessage.includes("bill")) {
+          helpfulMessage += "💰 Payments - Ask about 'payment status' or billing\n";
+        }
+        
+        helpfulMessage += "\nOr simply say 'help' for more options!";
+        
+        replies.push(buildTextMessage(helpfulMessage));
       }
     }
 

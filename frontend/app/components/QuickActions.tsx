@@ -7,6 +7,7 @@ type Props = {
 const actions = [
   { label: "New Deals", text: "show deals" },
   { label: "My Orders", text: "my orders" },
+  { label: "Orders 300-400", text: "show me orders with 300-400 range" },
   { label: "Payment Status", text: "payment status" },
   { label: "Help", text: "help" }
 ];
